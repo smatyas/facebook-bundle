@@ -9,6 +9,11 @@
             "email": "somfai.matyas@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Smatyas\\FacebookBundle\\": ""
+        }
+    },
     "require": {
         "php": ">=5.6",
         "facebook/graph-sdk": "^5.4",
