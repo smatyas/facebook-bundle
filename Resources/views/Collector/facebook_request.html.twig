@@ -1,0 +1,29 @@
+<h3>Request</h3>
+<table class="dump">
+    {% if request.headers %}
+        <tr>
+            <th>Headers</th>
+            <td>
+                <pre><code>{{ dump(request.headers) }}</code></pre>
+            </td>
+        </tr>
+    {% endif %}
+
+    {% if request.params %}
+        <tr>
+            <th>Params</th>
+            <td>
+                <pre><code>{{ dump(request.params) }}</code></pre>
+            </td>
+        </tr>
+    {% endif %}
+
+    {% if request.files %}
+        <tr>
+            <th>Files</th>
+            <td>
+                <pre><code>{{ dump(request.files) }}</code></pre>
+            </td>
+        </tr>
+    {% endif %}
+</table>

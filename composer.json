@@ -1,0 +1,19 @@
+{
+    "name": "smatyas/facebook-bundle",
+    "description": "Symfony bundle to handle Facebook requests and webhooks",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mátyás Somfai",
+            "email": "somfai.matyas@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.6",
+        "facebook/graph-sdk": "^5.4",
+        "symfony/framework-bundle": ">=2.8",
+        "monolog/monolog": "^1.22",
+        "sensio/framework-extra-bundle": "^3.0"
+    }
+}

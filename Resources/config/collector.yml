@@ -1,0 +1,10 @@
+services:
+    facebook.facebook_client_collector:
+        class: Smatyas\FacebookBundle\DataCollector\FacebookClientCollector
+        public: false
+        arguments: ['@facebook']
+        tags:
+            -
+              id: facebook.facebook_client_collector
+              name: data_collector
+              template: 'SmatyasFacebookBundle:Collector:facebook_client_collector.html.twig'

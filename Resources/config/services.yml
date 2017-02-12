@@ -1,0 +1,18 @@
+services:
+    facebook.session_data_handler:
+        class: Smatyas\FacebookBundle\Service\SymfonySessionPersistentDataHandler
+        arguments: ["@session"]
+
+    facebook:
+        class: Smatyas\FacebookBundle\Service\Facebook
+        arguments:
+            -
+              app_id: '%fb_app_id%'
+              app_secret: '%fb_app_secret%'
+              default_graph_version: 'v2.8'
+              persistent_data_handler: '@facebook.session_data_handler'
+              webhook_verify_token: '%fb_webhook_verify_token%'
+            - '@logger'
+            - '@event_dispatcher'
+        tags:
+            - { name: monolog.logger, channel: facebook }

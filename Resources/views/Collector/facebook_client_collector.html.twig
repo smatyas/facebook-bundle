@@ -1,0 +1,117 @@
+{% extends '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% block toolbar %}
+    {% set icon %}
+        {# this is the content displayed as a panel in the toolbar #}
+        <span class="icon">{{ include('@SmatyasFacebook/Collector/facebook_logo.svg') }}</span>
+        <span class="sf-toolbar-value">{{ collector.callsTotalTime }}</span>
+        <span class="sf-toolbar-label">ms</span>
+    {% endset %}
+
+    {% set text %}
+        {# this is the content displayed when hovering the mouse over
+           the toolbar panel #}
+        <div class="sf-toolbar-info-piece">
+            <b>API calls</b>
+            <span>{{ collector.calls|length }}</span>
+        </div>
+        <div class="sf-toolbar-info-piece">
+            <b>API calls time</b>
+            <span>{{ collector.callsTotalTime}} ms</span>
+        </div>
+
+        {#<div class="sf-toolbar-info-piece">#}
+            {#<b>Webhook</b>#}
+            {#<span>TODO</span>#}
+        {#</div>#}
+    {% endset %}
+
+    {# the 'link' value set to 'false' means that this panel doesn't
+       show a section in the web profiler #}
+    {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { link: true }) }}
+{% endblock %}
+
+{% block head %}
+     {# Optional. Here you can link to or define your own CSS and JS contents.
+     Use {{ parent() }} to extend the default styles instead of overriding them. #}
+    {{ parent() }}
+
+    <style type='text/css'>
+        table.dump th {
+            width: 60px;
+        }
+    </style>
+    <script>
+        function toggleDisplay(elementID)
+        {
+            (function(style) {
+                style.display = style.display === 'none' ? '' : 'none';
+            })(document.getElementById(elementID).style);
+        }
+    </script>
+{% endblock %}
+
+{% block menu %}
+    {# This left-hand menu appears when using the full-screen profiler. #}
+    <span class="label">
+        <span class="icon">{{ include('@SmatyasFacebook/Collector/facebook_logo.svg') }}</span>
+        <strong>Facebook</strong>
+    </span>
+{% endblock %}
+
+{% block panel %}
+    {# Optional, for showing the most details. #}
+    <h2>Facebook requests</h2>
+    <div class="metrics">
+        <div class="metric">
+            <span class="value">{{ collector.calls|length }}</span>
+            <span class="label">API calls</span>
+        </div>
+
+        <div class="metric">
+            <span class="value">{{ collector.callsTotalTime }} <span class="unit">ms</span></span>
+            <span class="label">API calls time</span>
+        </div>
+
+        {#<div class="metric">#}
+            {#<span class="value">TODO</span>#}
+            {#<span class="label">Webhook</span>#}
+        {#</div>#}
+    </div>
+
+    {% if collector.calls|length > 0 %}
+        <h2>API calls</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">Call</th>
+                    <th scope="col">Details</th>
+                    <th scope="col">Duration</th>
+                    <th scope="col">Response code</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for call in collector.calls %}
+                    <tr class="{% if call.code >= 300 %}status-error{% endif %}">
+                        <td>#{{ loop.index }}</td>
+                        <td>
+                            {% set displayId = 'dump_request_' ~ loop.index %}
+                            <a href="#" onclick="toggleDisplay('{{ displayId }}');return false;">
+                            {{ call.request.method }}
+                            {{ call.request.endpoint }}
+                            ({{ call.request.graphVersion }})
+                            </a>
+
+                            <div id="{{ displayId }}" style="display: none">
+                                {{ include('@SmatyasFacebook/Collector/facebook_request.html.twig', { request: call.request }) }}
+                                {{ include('@SmatyasFacebook/Collector/facebook_response.html.twig', { response: call.response }) }}
+                            </div>
+                        </td>
+                        <td>{{ call.duration }} ms</td>
+                        <td>{{ call.code }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

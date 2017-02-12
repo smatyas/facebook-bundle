@@ -1,0 +1,29 @@
+<h3>Response</h3>
+<table class="dump">
+    {% if response.headers %}
+        <tr>
+            <th>Headers</th>
+            <td>
+                <pre><code>{{ dump(response.headers) }}</code></pre>
+            </td>
+        </tr>
+    {% endif %}
+
+    {% if response.decodedBody %}
+        <tr>
+            <th>Body</th>
+            <td>
+                <pre><code>{{ dump(response.decodedBody) }}</code></pre>
+            </td>
+        </tr>
+    {% endif %}
+
+    {% if response.thrownException %}
+        <tr>
+            <th>Thrown exception</th>
+            <td>
+                <pre><code>{{ dump(response.thrownException) }}</code></pre>
+            </td>
+        </tr>
+    {% endif %}
+</table>

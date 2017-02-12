@@ -1,0 +1,3 @@
+smatyas_facebook_webhook:
+  resource: '@SmatyasFacebookBundle/Controller'
+  type: annotation
